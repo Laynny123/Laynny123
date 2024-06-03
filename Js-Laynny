@@ -1,0 +1,104 @@
+let xbola = 200;
+let ybola = 200;
+let diametro = 16;
+let raio = diametro/2;
+let velocidadeXbola = 5;
+let velocidadeYbola = 4;
+let xraquete = 5;
+let xraqueteOponente = 585;
+let yraquete = 150;
+let yraqueteOponente = 150;
+let raqueteLargura = 10;
+let raqueteAltura = 100;
+let casa = 0;
+let visitante = 0;
+
+function setup() {
+  createCanvas(600, 400);
+}
+
+function draw() {
+  background(0);
+  mostrarBola();
+  mostrarRaquete();
+  mostrarRaqueteOponente();
+  movimentarBola();
+  movimentarMinhaRaquete();
+  movimentarRaqueteOponente();
+  verificarColisao();
+  verificarColisaoRaquete();
+  verificarColisaoRaqueteOponente();
+  incluirPlacar();
+  marcarPontos();
+}
+
+function incluirPlacar() {
+  fill(255);
+  text(casa, 200, 26);
+  text(visitante, 400, 26);
+  
+}
+
+function marcarPontos() {
+  if (xbola < 10 ) {
+    visitante = visitante + 1;
+  };
+  if (xbola > 590) {
+  casa = casa + 1;
+  };
+}
+
+function mostrarBola() {
+  circle(xbola, ybola, diametro);
+}
+
+function mostrarRaquete() {
+  rect(xraquete, yraquete, raqueteLargura, raqueteAltura)
+}
+
+function mostrarRaqueteOponente() {
+  rect(xraqueteOponente, yraqueteOponente, raqueteLargura, raqueteAltura)
+}
+
+function movimentarBola() {
+  xbola = xbola + velocidadeXbola;
+  ybola = ybola + velocidadeYbola;
+}
+
+function movimentarMinhaRaquete() {
+  if (keyIsDown(UP_ARROW)) {
+    yraquete = yraquete - 10;
+  }
+  if (keyIsDown(DOWN_ARROW)) {
+    yraquete = yraquete + 10;
+  }
+}
+
+function movimentarRaqueteOponente() {
+  yraqueteOponente = ybola - (raqueteAltura/2);
+}
+
+function verificarColisao() {
+  if ((xbola + raio) > width || (xbola - raio) < 0) {
+    velocidadeXbola = -velocidadeXbola
+  };
+  if ((ybola + raio) > height || (ybola - raio) < 0) {
+    velocidadeYbola = -velocidadeYbola
+  };
+}
+
+function verificarColisaoRaquete() {
+  if (xbola - raio < xraquete + raqueteLargura &&
+      ybola + raio > yraquete &&
+      ybola - raio < yraquete + raqueteAltura) {
+    velocidadeXbola = -velocidadeXbola;
+  }
+}
+
+function verificarColisaoRaqueteOponente() {
+  if (xbola + raio > xraqueteOponente &&
+      ybola + raio > yraqueteOponente &&
+      ybola - raio < yraqueteOponente + raqueteAltura) {
+   velocidadeXbola = -velocidadeXbola;  
+    }
+  }
